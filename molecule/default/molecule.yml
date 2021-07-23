@@ -1,0 +1,15 @@
+---
+driver:
+  name: delegated
+platforms:
+  - name: mail-receiver-srv
+    image: centos:7
+  - name: mail-relay-srv
+    image: centos:7
+  - name: mail-sender-srv
+    image: centos:7
+
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
