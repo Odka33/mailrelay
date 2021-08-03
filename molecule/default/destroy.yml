@@ -23,8 +23,8 @@
       retries: 300
       with_items: "{{ server.results }}"
 
-    - name: Delete docker network(s)
+    - name: Delete a network, disconnecting all containers
       docker_network:
-        name: "{{ item }}"
+        name: mail_net
         state: absent
-      with_items: "{{ molecule_yml.platforms }}"
+        force: yes

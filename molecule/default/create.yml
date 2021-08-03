@@ -32,11 +32,9 @@
       with_items: "{{ platforms.results }}"
       when: platforms.changed or docker_images.results | map(attribute='images') | select('equalto', []) | list | count >= 0
 
-    - name: Create docker network(s)
+    - name: Create a network
       docker_network:
-        name: "{{ item.name }}"
-        state: present
-      with_items: "{{ molecule_yml.platforms }}"
+        name: mail_net
 
     - name: Create molecule instance(s)
       docker_container:
@@ -59,6 +57,14 @@
       with_items: "{{ molecule_yml.platforms }}"
       async: 7200
       poll: 0
+      
+    - name: Add machine to the network
+      docker_network:
+        name: mail_net
+        connected: 
+          - "{{ item.name }}"
+        appends: yes
+      with_items: "{{ molecule_yml.platforms }}"
 
     - name: Wait for instance(s) creation to complete
       async_status:

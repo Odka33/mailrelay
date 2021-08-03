@@ -2,7 +2,7 @@
 driver:
   name: delegated
   options:
-    managed: False
+    managed: True
     login_cmd_template: 'docker exec -ti {instance} bash'
     ansible_connection_options:
       ansible_connection: docker
@@ -13,8 +13,6 @@ platforms:
     image: centos:7
   - name: mail-sender-srv
     image: centos:7
-
 provisioner:
   name: ansible
-verifier:
-  name: ansible
+  log: True
